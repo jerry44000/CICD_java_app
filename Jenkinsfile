@@ -9,7 +9,7 @@ pipeline{
                 script{
 
                     gitCheckout(
-                        branch: "main"
+                        branch: "main",
                         url: "https://github.com/jerry44000/CICD_java_app.git"
                     )
                 }
