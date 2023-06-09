@@ -1,3 +1,5 @@
+@Library('my-shared-library') _
+
 pipeline{
     agent any
 
@@ -5,7 +7,11 @@ pipeline{
         stage('Git Checkout'){
             steps{
                 script{
-                    git branch: 'main', url: 'https://github.com/jerry44000/CICD_java_app.git'
+
+                    gitCheckout(
+                        branch: "main"
+                        url: "https://github.com/jerry44000/CICD_java_app.git"
+                    )
                 }
             }
         }
