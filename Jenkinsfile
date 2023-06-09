@@ -11,13 +11,14 @@ pipeline{
                         url: "https://github.com/jerry44000/CICD_java_app.git"
                     )             
             }
-            stage('Unit Test Maven'){
+            
+        }
+        stage('Unit Test Maven'){
                 steps {
                     script {
                         mvnTest()
                     }
                 }
             }
-        }
     }
 }
