@@ -33,12 +33,22 @@ pipeline{
         stage('Integration Test Maven'){
 
         when { expression { param.action == 'create'} }
-        
+
                 steps {
                     script {
                         mavenIntegration()
                     }
                 }
             }
+        stage('Sonarqube Static Code Analysis'){
+
+        when { expression { param.action == 'create'} }
+
+               steps {
+                  script {
+                    staticCodeAnalysis()
+                  }
+               }  
+        }
     }
 }
