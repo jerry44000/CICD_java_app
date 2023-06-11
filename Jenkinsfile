@@ -69,7 +69,7 @@ pipeline{
 
                steps {
                   script {
-                    mvnBuil()
+                    mvnBuild()
                   }
                }  
         }
