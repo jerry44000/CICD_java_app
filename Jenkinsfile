@@ -66,16 +66,16 @@ pipeline{
         //           }
         //        }  
         // }
-        // stage('Maven Build'){
+        stage('Maven Build'){
 
-        // when { expression { params.action == 'create'} }
+        when { expression { params.action == 'create'} }
 
-        //        steps {
-        //           script {
-        //             mvnBuild()
-        //           }
-        //        }  
-        // }
+               steps {
+                  script {
+                    mvnBuild()
+                  }
+               }  
+        }
         stage('Docker Image Build'){
 
         when { expression { params.action == 'create'} }
@@ -93,6 +93,16 @@ pipeline{
                steps {
                   script {
                     dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                  }
+               }  
+        }
+        stage('Push Docker Image on DockerHub'){
+
+        when { expression { params.action == 'create'} }
+
+               steps {
+                  script {
+                    dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                   }
                }  
         }
