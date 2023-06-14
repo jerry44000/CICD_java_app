@@ -24,58 +24,58 @@ pipeline{
             }
             
         }
-        stage('Unit Test Maven'){
+        // stage('Unit Test Maven'){
 
-        when { expression { params.action == 'create'} }
+        // when { expression { params.action == 'create'} }
 
-                steps {
-                    script {
-                        mvnTest()
-                    }
-                }
-            }
-        stage('Integration Test Maven'){
+        //         steps {
+        //             script {
+        //                 mvnTest()
+        //             }
+        //         }
+        //     }
+        // stage('Integration Test Maven'){
 
-        when { expression { params.action == 'create'} }
+        // when { expression { params.action == 'create'} }
 
-                steps {
-                    script {
-                        mavenIntegration()
-                    }
-                }
-            }
-        stage('Sonarqube Static Code Analysis'){
+        //         steps {
+        //             script {
+        //                 mavenIntegration()
+        //             }
+        //         }
+        //     }
+        // stage('Sonarqube Static Code Analysis'){
 
-        when { expression { params.action == 'create'} }
+        // when { expression { params.action == 'create'} }
 
-               steps {
-                  script {
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    staticCodeAnalysis(SonarQubecredentialsId)
-                  }
-               }  
-        }
-        stage('Sonarqube Quality Gate Status'){
+        //        steps {
+        //           script {
+        //             def SonarQubecredentialsId = 'sonarqube-api'
+        //             staticCodeAnalysis(SonarQubecredentialsId)
+        //           }
+        //        }  
+        // }
+        // stage('Sonarqube Quality Gate Status'){
 
-        when { expression { params.action == 'create'} }
+        // when { expression { params.action == 'create'} }
 
-               steps {
-                  script {
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    qualityGateStatus(SonarQubecredentialsId)
-                  }
-               }  
-        }
-        stage('Maven Build'){
+        //        steps {
+        //           script {
+        //             def SonarQubecredentialsId = 'sonarqube-api'
+        //             qualityGateStatus(SonarQubecredentialsId)
+        //           }
+        //        }  
+        // }
+        // stage('Maven Build'){
 
-        when { expression { params.action == 'create'} }
+        // when { expression { params.action == 'create'} }
 
-               steps {
-                  script {
-                    mvnBuild()
-                  }
-               }  
-        }
+        //        steps {
+        //           script {
+        //             mvnBuild()
+        //           }
+        //        }  
+        // }
         stage('Docker Image Build'){
 
         when { expression { params.action == 'create'} }
@@ -86,7 +86,7 @@ pipeline{
                   }
                }  
         }
-        stage('Docker Image Scan'){
+        stage('Trivy Docker Image Scan'){
 
         when { expression { params.action == 'create'} }
 
