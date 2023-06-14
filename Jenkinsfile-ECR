@@ -5,9 +5,9 @@ pipeline{
 
     parameters {
         choice(name: 'action', choices:'create\ndelete', description: 'Choose create/destroy')
-        string(name: 'ImageName', description: 'name of the docker build', defaultValue: 'javapp')
-        string(name: 'ImageTag', description: 'Tag of the docker build', defaultValue: 'v1')
-        string(name: 'DockerHubUser', description: 'name of App', defaultValue: 'shaykube')
+        string(name: 'aws_account_id', description: 'AWS account ID', defaultValue: '345358385088')
+        string(name: 'Region', description: 'ECR region', defaultValue: 'use-east-1')
+        string(name: 'ECR_REPO_NAME', description: 'ECR name', defaultValue: 'shaykube')
     }
 
     stages {
@@ -73,6 +73,46 @@ pipeline{
                steps {
                   script {
                     mvnBuild()
+                  }
+               }  
+        }
+        stage('ECR Docker Image Build'){
+
+        when { expression { params.action == 'create'} }
+
+               steps {
+                  script {
+                    dockerBuildECR("${params.aws_account_id}","${params.region}","${params.ECR_REPO_NAME}")
+                  }
+               }  
+        }
+        stage('Trivy Docker Image Scan'){
+
+        when { expression { params.action == 'create'} }
+
+               steps {
+                  script {
+                    dockerImageScanECR("${params.aws_account_id}","${params.region}","${params.ECR_REPO_NAME}")
+                  }
+               }  
+        }
+        stage('Push Docker Image on ECR'){
+
+        when { expression { params.action == 'create'} }
+
+               steps {
+                  script {
+                    dockerBuildECR("${params.aws_account_id}","${params.region}","${params.ECR_REPO_NAME}")
+                  }
+               }  
+        }
+        stage('ECR Docker Image Clean Up'){
+
+        when { expression { params.action == 'create'} }
+
+               steps {
+                  script {
+                    dockerImageCleanupECR("${params.aws_account_id}","${params.region}","${params.ECR_REPO_NAME}")
                   }
                }  
         }
